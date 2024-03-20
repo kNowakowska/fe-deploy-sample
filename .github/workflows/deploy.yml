@@ -51,6 +51,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
 
-      - name: Deploy to Vercel
-        uses: ./vercel-deploy
-        if: ${{inputs.deploy-netlify}}
+  deploy-vercel:
+    uses: ./vercel-deploy
+    secrets: inherit
+    if: ${{inputs.deploy-netlify}}
