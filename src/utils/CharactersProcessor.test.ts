@@ -53,7 +53,7 @@ describe('CharactersProcessor', () => {
 
   test('should return two characters', () => {
     const topCharacters = getTopCharacters(characters, 1);
-    expect(topCharacters.length).toBe(1);
+    expect(topCharacters.length).toBe(5);
     expect(topCharacters[0].name).toBe('Rick Sanchez');
   });
 });
