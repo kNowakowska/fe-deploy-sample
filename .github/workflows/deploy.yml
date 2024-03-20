@@ -52,6 +52,6 @@ jobs:
         timeout-minutes: 1
 
   deploy-vercel:
-    uses: ./vercel-deploy
+    uses: ./vercel-deploy.yml
     secrets: inherit
     if: ${{inputs.deploy-netlify}}
