@@ -9,5 +9,5 @@ runs:
       shell: bash
 
     - name: Test
-      run: npm run test:e2e
+      run: VITE_E2E_BASE_URL=${DEPLOY_URL} npm run test:e2e
       shell: bash
