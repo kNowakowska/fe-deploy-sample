@@ -4,6 +4,10 @@ description: Run e2e tests
 runs:
   using: 'composite'
   steps:
+    - name: Install Playwright
+      run: npx playwright install
+      shell: bash
+
     - name: Test
       run: npm run test:e2e
       shell: bash
