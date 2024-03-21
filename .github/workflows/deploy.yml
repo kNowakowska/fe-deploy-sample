@@ -1,70 +1,16 @@
-name: Deploy Workflow
+name: Deploy on push
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [master]
   push:
-    branches: [master]
-
-  workflow_dispatch:
-    inputs:
-      deploy-vercel:
-        type: boolean
-        description: Enable Vercel deployment
-        default: false
+    branches:
+      - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    env:
-      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  deploy-netlify:
+    uses: ./.github/workflows/deploy-netlify.yml
+    secrets: inherit
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configure node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm run test
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: './dist'
-          production-branch: master
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: 'Deploy from GitHub Actions'
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        timeout-minutes: 1
-
-      - name: Install Vercel CLI
-        if: ${{inputs.deploy-vercel}}
-        run: npm install --global vercel@canary
-
-      - name: Pull Vercel Environment Information
-        if: ${{inputs.deploy-vercel}}
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        if: ${{inputs.deploy-vercel}}
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        if: ${{inputs.deploy-vercel}}
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+  deploy-vercel:
+    needs: deploy-netlify
+    uses: ./.github/workflows/deploy-vercel.yml
+    secrets: inherit
