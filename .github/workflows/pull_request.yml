@@ -28,3 +28,8 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Run e2e tests
+        uses: ./.github/actions/e2e-tests
+        env:
+          DEPLOY_URL: ${DEPLOY_URL}
