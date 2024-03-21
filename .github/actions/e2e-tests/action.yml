@@ -1,0 +1,9 @@
+name: E2E
+description: Run e2e tests
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Test
+      run: npm run test:e2e
+      shell: bash
