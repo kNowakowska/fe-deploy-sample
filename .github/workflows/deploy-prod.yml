@@ -1,0 +1,32 @@
+name: Deploy producation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pr-check:
+    environment:
+      name: 'Production'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure node
+        uses: ./.github/actions/setup-project
+
+      - name: Format code
+        uses: ./.github/actions/format-code
+
+      - name: Build app
+        run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy to S3
+        run: aws s3 sync dist s3://ofe-rmcatalog1
