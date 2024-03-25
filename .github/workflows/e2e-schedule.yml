@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Configure node
+        uses: ./.github/actions/setup-project
+
       - name: Run e2e tests
         uses: ./.github/actions/e2e-tests
         with:
