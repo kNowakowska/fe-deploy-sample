@@ -26,7 +26,7 @@ jobs:
         uses: ./.github/actions/notify-webhook
         if: ${{ failure() }}
         with:
-          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          slack-webhook-url: ${{ secrets.WEBHOOK_URL }}
           message: 'E2E tests failed'
           type: "danger"
 
