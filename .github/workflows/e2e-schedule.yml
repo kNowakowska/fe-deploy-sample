@@ -24,7 +24,7 @@ jobs:
 
       - name: Send notification on failure
         uses: ./.github/actions/notify-webhook
-        if: ${{ job.status == 'failure' }}
+        if: ${{ failure() }}
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           message: 'E2E tests failed'
