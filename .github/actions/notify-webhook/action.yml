@@ -16,10 +16,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    name: Call Slack webhook
-    run: node .github/actions/notify-webhook/slack-webhook.js
-    shell: bash
-    env:
-      SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
-      MESSAGE: ${{ inputs.message }}
-      TYPE: ${{ inputs.type }}
+    - name: Call Slack webhook
+      run: node .github/actions/notify-webhook/slack-webhook.js
+      shell: bash
+      env:
+        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
+        MESSAGE: ${{ inputs.message }}
+        TYPE: ${{ inputs.type }}
