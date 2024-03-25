@@ -1,0 +1,29 @@
+name: E2E Schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */2 * * *'
+
+jobs:
+  run-tests:
+    environment:
+      name: 'Preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run e2e tests
+        uses: ./.github/actions/e2e-tests
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Send notification on failure
+        uses: ./.github/actions/notify-webhook
+        if: ${{ job.status == 'failure' }}
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          message: 'E2E tests failed'
+          type: "danger"
+
