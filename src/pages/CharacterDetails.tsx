@@ -5,11 +5,14 @@ import { Character } from '../../lib/rick-and-morty-api-client';
 const CharacterDetails = () => {
   const character = useLoaderData() as Character;
 
+  function addToFavourites() {
+    throw new Error('Not implemented');
+  }
   return (
     <>
       <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
         <div className="flex flex-row space-x-4" data-testid="character-details">
-          <div>
+          <div onClick={addToFavourites}>
             <img
               src={character.image}
               alt={`${character.name} - Profile Image`}
