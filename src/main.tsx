@@ -5,9 +5,12 @@ import App from './App';
 import { fetchCharacter, fetchCharacters } from './loaders/CharacterLoader';
 import { CharacterRouteParams } from './types/types';
 import { ConfigProvider } from './context/ConfigContext';
+import { customErrorProcessor } from './errorHandler';
 
 const Characters = lazy(() => import('./pages/Characters'));
 const CharacterDetails = lazy(() => import('./pages/CharacterDetails'));
+
+window.addEventListener('error', customErrorProcessor);
 
 const router = createHashRouter([
   {
